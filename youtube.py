@@ -6,7 +6,7 @@ import pandas as pd
 import re
 from sqlalchemy import create_engine
 
-api_key = 'AIzaSyCcip4n3aXS7zoNONXgl_CIggRn1dwyRJA'
+api_key = 'your api key'
 youtube=build("youtube", "v3", developerKey=api_key)
 
 # guvi - UCduIoIMfD8tT3KoU0-zBRgQ
@@ -30,14 +30,14 @@ def channel_request(channel_id):
 def channel_mysql_write(channel_data):
     channel=pd.DataFrame(channel_data,index=[0])
     #st.write(channel)
-    conn=sql.connect(host='localhost',user='root',password='Sans2024')
+    conn=sql.connect(host='localhost',user='root',password='yoursqlpassword')
     cur=conn.cursor()
     cur.execute("create database if not exists demo3")
     cur.execute('use demo3')
     cur.execute('''create table if not exists Channels(Channel_Name VARCHAR(100),Channel_ID VARCHAR(100),
                                                                 Channel_Subscription BIGINT,Channel_View BIGINT, Channel_Video BIGINT,Channel_playlistid VARCHAR(100) )''')
     conn.commit()
-    connection_str = "mysql+pymysql://root:Sans2024@localhost:3306/demo3"
+    connection_str = "mysql+pymysql://root:password@localhost:3306/demo3"
     engine = create_engine(connection_str)
     df=pd.DataFrame(channel)
     df.to_sql(name='Channels', con=engine, if_exists='append', index=False)
@@ -93,9 +93,9 @@ def videos_data(all_video_ids):
 
 def video_mysql_write(video_data):
   df1=video_data
-  mydb = sql.connect(host="localhost",user="root",password="Sans2024")
+  mydb = sql.connect(host="localhost",user="root",password="yoursqlpassword")
   cursor = mydb.cursor()
-  connection_str = "mysql+pymysql://root:Sans2024@localhost:3306/demo3"
+  connection_str = "mysql+pymysql://root:password@localhost:3306/demo3"
   engine = create_engine(connection_str)
   cursor.execute('use demo3')
   cursor.execute('''create table if not exists Videos (  Video_Id VARCHAR(50),
@@ -152,11 +152,11 @@ def comment_mysql_write(comment_data):
     df4=comment_data 
                 
     #Fetched data inserted into MYSQL database using mysql connector
-    mydb = sql.connect(host="localhost",user="root",password="Sans2024")
+    mydb = sql.connect(host="localhost",user="root",password="yoursqlpassword")
 
     cursor = mydb.cursor()
 
-    connection_str = f"mysql+pymysql://root:Sans2024@localhost:3306/demo3"
+    connection_str = f"mysql+pymysql://root:password@localhost:3306/demo3"
     engine = create_engine(connection_str)
 
     cursor.execute('use demo3')
@@ -217,7 +217,7 @@ if choice=='Data Harvesting & warehousing':
 
 
 if choice=='Querying':
-    mydb = sql.connect(host="localhost",user="root",password="Sans2024",database="demo3")
+    mydb = sql.connect(host="localhost",user="root",password="yoursqlpassword",database="demo3")
 
     cursor = mydb.cursor()
 
